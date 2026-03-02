@@ -29,7 +29,6 @@ public class ResonaClientEvents {
         if (event.world == null || !event.world.isRemote) {
             return;
         }
-        ResonaClientManager.get()
-            .disconnect();
+        // ResonaClientManager.get().disconnect(); 
     }
 }

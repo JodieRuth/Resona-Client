@@ -17,6 +17,7 @@ public class ResonaClientManager {
 
     private ResonaWsClient client;
     private volatile boolean connecting;
+    private long lastConnectAttempt;
     private final Queue<Runnable> taskQueue = new ConcurrentLinkedQueue<Runnable>();
 
     public static ResonaClientManager get() {
@@ -30,6 +31,14 @@ public class ResonaClientManager {
                 task.run();
             } catch (Exception e) {
                 ResonaClientMod.LOG.error("client task error", e);
+            }
+        }
+
+        if (ResonaConfig.autoConnect && (client == null || !client.isOpen()) && !connecting) {
+            long now = System.currentTimeMillis();
+            if (now - lastConnectAttempt > 5000) { 
+                lastConnectAttempt = now;
+                connectAutoProbe();
             }
         }
     }

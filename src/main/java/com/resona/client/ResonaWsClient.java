@@ -31,6 +31,9 @@ public class ResonaWsClient extends WebSocketClient {
         JsonObject obj = new JsonObject();
         obj.addProperty("type", "mcp_register");
         obj.addProperty("role", "minecraft_mod");
+        com.google.gson.JsonArray prefixes = new com.google.gson.JsonArray();
+        prefixes.add("mc");
+        obj.add("prefixes", prefixes);
         send(GSON.toJson(obj));
     }
 
